@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yahoo Finance Pro · Tech Portfolio Risk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="bright.css">
+    <script src="bright.js" defer></script>
+    <style>
+        body {
+            font-family: "Inter", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            background-color: #eef2ff;
+            color: #0f172a;
+        }
+
+        /* #bright-content-1,
+        #bright-content-2 {
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        } */
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(93, 63, 211, 0.15), rgba(15, 118, 110, 0.15));
+        }
+
+        .mini-candle {
+            height: 72px;
+            width: 16px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .mini-candle::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            top: 4px;
+            bottom: 4px;
+            background-color: rgba(34, 197, 94, 0.6);
+        }
+
+        .mini-candle::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 16px;
+            bottom: 24px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, rgba(34, 197, 94, 0.6), rgba(21, 128, 61, 0.7));
+        }
+
+        .bright-placeholder {
+            display: block;
+            width: 100%;
+            min-height: 1.75rem;
+        }
+
+        #bright-content-3 {
+            table-layout: fixed;
+            width: 100%;
+        }
+
+        #bright-content-3 th,
+        #bright-content-3 td {
+            vertical-align: middle;
+        }
+
+        #bright-content-3 col.col-code {
+            width: 30%;
+        }
+
+        #bright-content-3 col.col-weight {
+            width: 12%;
+        }
+
+        #bright-content-3 col.col-beta {
+            width: 18%;
+        }
+
+        #bright-content-3 col.col-commentary {
+            width: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="bg-[#410093] text-white shadow">
+        <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div>
+                <p class="uppercase tracking-[0.3em] text-xs text-indigo-200">Yahoo Finance Pro</p>
+                <h1 class="text-2xl font-semibold">Tech Portfolio Risk Console</h1>
+            </div>
+            <div class="text-right text-sm">
+                <p>Login Account: <span class="font-semibold">xxx</span></p>
+                <p class="text-indigo-200">Multi-factor Risk Sandbox · Real-time Sync</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-10 grid lg:grid-cols-[1.6fr_1fr] gap-6">
+        <section class="space-y-6">
+            <div class="metric-card rounded-2xl border border-indigo-100 backdrop-blur bg-white/90 p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-semibold">Tech Stock Interest Rate Shock Exposure</h2>
+                        <p class="text-sm text-slate-600 mt-1">Fed 2025Q1 Hawkish Scenario · Real-time Update</p>
+                    </div>
+                    <div class="text-right">
+                        <label class="text-xs text-indigo-600 uppercase">Stress Scenario (%)</label>
+                        <input id="stress-range" type="range" min="0" max="150" value="80"
+                            class="w-40 accent-emerald-400">
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-4 gap-4 mt-6 text-sm">
+                    <div class="bg-white rounded-xl p-4 border border-white/60 shadow-sm">
+                        <p class="text-slate-500 text-xs uppercase">Portfolio NAV</p>
+                        <p class="text-2xl font-semibold mt-1" id="nav-value">$12.84M</p>
+                        <p class="text-emerald-600 text-xs mt-1">+1.2% Today</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-white/60 shadow-sm">
+                        <p class="text-slate-500 text-xs uppercase">Rate Sensitivity Beta</p>
+                        <p class="text-2xl font-semibold mt-1" id="beta-value">1.46</p>
+                        <p class="text-slate-500 text-xs mt-1">Impact of 25bps Hike</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-white/60 shadow-sm">
+                        <p class="text-slate-500 text-xs uppercase">Max Drawdown (Simulated)</p>
+                        <p class="text-2xl font-semibold mt-1" id="drawdown-value">-6.2%</p>
+                        <p class="text-rose-500 text-xs mt-1">99% C.L. 5-day Window</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-white/60 shadow-sm">
+                        <p class="text-slate-500 text-xs uppercase">Hedge Gap</p>
+                        <p class="text-2xl font-semibold mt-1" id="hedge-gap">$2.1M</p>
+                        <p class="text-slate-500 text-xs mt-1">Requires Extra Treasury Duration</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <div>
+                        <div id="bright-container-1">
+                            <div id="bright-content-1"
+                                class="bright-placeholder text-lg font-semibold tracking-tight leading-tight"></div>
+                        </div>
+                        <div id="bright-container-2">
+                            <p id="bright-content-2" class="bright-placeholder text-sm text-slate-500"></p>
+                        </div>
+                    </div>
+                    <!-- <span class="text-xs text-emerald-600 font-semibold">Real-time Sync</span> -->
+                </div>
+                <div class="px-6 py-4 overflow-x-auto" id="bright-container-3">
+                    <table class="w-full text-sm" id="bright-content-3" style="height: 500px;">
+                        <colgroup>
+                            <col class="col-code">
+                            <col class="col-weight">
+                            <col class="col-beta">
+                            <col class="col-commentary">
+                        </colgroup>
+                        <thead class="text-left text-slate-500 uppercase text-xs tracking-wide">
+                            <tr>
+                                <th class="py-2 pr-4">Symbol / Name</th>
+                                <th class="py-2 pr-4">Portfolio Weight</th>
+                                <th class="py-2 pr-4">Rate Hike Beta</th>
+                                <th class="py-2 pr-4">Fed Policy Commentary</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bright-table-body" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-semibold">Real-time Candle Replay</h2>
+                        <p class="text-xs text-slate-500">GUI-Agent pulls 5s snapshots via WebSocket</p>
+                    </div>
+                    <span class="text-xs text-slate-500">NY Time 09:42:17</span>
+                </div>
+                <div class="px-6 py-5 grid md:grid-cols-3 gap-4 text-sm">
+                    <div class="border border-slate-100 rounded-xl p-4">
+                        <div class="flex items-center justify-between">
+                            <p class="font-semibold">NVDA</p>
+                            <span class="text-emerald-600 text-xs">+2.4%</span>
+                        </div>
+                        <div class="mini-candle my-3"></div>
+                        <p class="text-xs text-slate-500">H: <span class="font-semibold">$942.10</span> · L: <span
+                                class="font-semibold">$918.40</span></p>
+                        <p class="text-xs text-slate-500">Volume <span class="font-semibold">8.2M</span></p>
+                    </div>
+                    <div class="border border-slate-100 rounded-xl p-4">
+                        <div class="flex items-center justify-between">
+                            <p class="font-semibold">MSFT</p>
+                            <span class="text-rose-500 text-xs">-0.3%</span>
+                        </div>
+                        <div class="mini-candle my-3"></div>
+                        <p class="text-xs text-slate-500">H: <span class="font-semibold">$432.80</span> · L: <span
+                                class="font-semibold">$428.05</span></p>
+                        <p class="text-xs text-slate-500">Volume <span class="font-semibold">3.1M</span></p>
+                    </div>
+                    <div class="border border-slate-100 rounded-xl p-4">
+                        <div class="flex items-center justify-between">
+                            <p class="font-semibold">TSLA</p>
+                            <span class="text-emerald-600 text-xs">+1.1%</span>
+                        </div>
+                        <div class="mini-candle my-3"></div>
+                        <p class="text-xs text-slate-500">H: <span class="font-semibold">$213.45</span> · L: <span
+                                class="font-semibold">$205.22</span></p>
+                        <p class="text-xs text-slate-500">Volume <span class="font-semibold">12.4M</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="space-y-6">
+            <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold">Diversification Suggestions</h2>
+                    <span class="text-xs text-emerald-600 font-semibold">AI Assistant Draft</span>
+                </div>
+                <ol class="mt-4 space-y-4 text-sm text-slate-600">
+                    <li>
+                        <p class="font-semibold text-slate-900">1. Reduce Semiconductor Concentration</p>
+                        <p class="mt-1">Lower NVDA/AMD weight by 4% each, move to XLK defensive ETF.</p>
+                    </li>
+                    <li>
+                        <p class="font-semibold text-slate-900">2. Increase USD Cash Substitutes</p>
+                        <p class="mt-1">Buy 6-month SOFR futures long, hedge short-end rate surprises.</p>
+                    </li>
+                    <li>
+                        <p class="font-semibold text-slate-900">3. Add Energy Inverse Correlation</p>
+                        <p class="mt-1">Establish XLE 5% weight to balance second-order inflation shock.</p>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold">Execution Queue</h2>
+                    <button class="text-xs text-indigo-600">Refresh FIX</button>
+                </div>
+                <ul class="mt-4 space-y-3 text-sm text-slate-600">
+                    <li class="flex items-start gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 mt-1"></span>
+                        <div>
+                            <p class="font-medium">Order 14:05 · Sell NVDA 1,200 shares</p>
+                            <p class="text-xs text-slate-500">Limit $935.50 · Status: Partial Fill 42%</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 mt-1"></span>
+                        <div>
+                            <p class="font-medium">Order 14:08 · Buy SOFRM5 Long</p>
+                            <p class="text-xs text-slate-500">Break-even Yield 18bps</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-400 mt-1"></span>
+                        <div>
+                            <p class="font-medium">Pending Approval · Enable Oil/Gas Hedge Basket</p>
+                            <p class="text-xs text-slate-500">Compliance Check Deadline 15:00</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
+                <h2 class="text-lg font-semibold">Event Tracking</h2>
+                <div class="mt-4 space-y-3 text-sm text-slate-600">
+                    <div class="flex items-start gap-3">
+                        <span class="text-xs font-semibold text-indigo-600 mt-0.5">FOMC</span>
+                        <p>Powell press conference transcript scraped, keyword 'higher for longer' appears 7 times.</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-xs font-semibold text-indigo-600 mt-0.5">DOT PLOT</span>
+                        <p>Terminal rate raised to 5.65%, model synced.</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-xs font-semibold text-indigo-600 mt-0.5">GDP NOW</span>
+                        <p>Atlanta Fed GDPNow hits 2.8%, triggering hedge increase alert.</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        const stressRange = document.getElementById('stress-range');
+        const betaValue = document.getElementById('beta-value');
+        const drawdownValue = document.getElementById('drawdown-value');
+        const hedgeGap = document.getElementById('hedge-gap');
+
+        if (stressRange) {
+            stressRange.addEventListener('input', (event) => {
+                const factor = Number(event.target.value) / 100;
+                betaValue.textContent = (1.1 + factor * 0.6).toFixed(2);
+                drawdownValue.textContent = `-${(3 + factor * 4.2).toFixed(1)}%`;
+                hedgeGap.textContent = `$${(1.2 + factor * 1.5).toFixed(1)}M`;
+            });
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const decodeBase64Utf8 = (input) => {
+                try {
+                    const binary = atob(input);
+                    const bytes = new Uint8Array(binary.length);
+                    for (let i = 0; i < binary.length; i += 1) {
+                        bytes[i] = binary.charCodeAt(i);
+                    }
+                    if (window.TextDecoder) {
+                        return new TextDecoder().decode(bytes);
+                    }
+                    const fallback = Array.from(bytes).map((byte) => `%${(`00${byte.toString(16)}`).slice(-2)}`).join('');
+                    return decodeURIComponent(fallback);
+                } catch (error) {
+                    console.error('Bright payload decode failed', error);
+                    return '';
+                }
+            };
+
+            const hasBrightMode = window.BrightMode && typeof window.BrightMode.apply === 'function';
+            if (!hasBrightMode) {
+                console.warn('BrightMode not available; showing plain text.');
+            }
+
+            const applyBrightMask = (containerId, contentId, text) => {
+                const container = document.getElementById(containerId);
+                const content = document.getElementById(contentId);
+                const normalizedText = text != null ? String(text) : '';
+                if (!container || !content || !normalizedText) {
+                    return;
+                }
+                content.textContent = normalizedText;
+                if (!hasBrightMode) {
+                    return;
+                }
+                // Use requestAnimationFrame to ensure DOM is fully rendered, especially in iframes
+                requestAnimationFrame(() => {
+                    BrightMode.apply({ containerId, contentId });
+                });
+            };
+
+            // Set title and description as plain text (no bright mask)
+            const titleContent = document.getElementById('bright-content-1');
+            const descContent = document.getElementById('bright-content-2');
+            if (titleContent) {
+                titleContent.textContent = decodeBase64Utf8('RmVkIFNlbnNpdGl2aXR5IERpc3RyaWJ1dGlvbg==');
+            }
+            if (descContent) {
+                descContent.textContent = decodeBase64Utf8('U291cmNlOiBHVUktQWdlbnQgc2NyYXBlIG9mIFlhaG9vIEZpbmFuY2UgUG9ydGZvbGlv');
+            }
+
+            const tablePayload = decodeBase64Utf8('eyJoZWFkZXJzIjpbIlN5bWJvbCAvIE5hbWUiLCJQb3J0Zm9saW8gV2VpZ2h0IiwiUmF0ZSBIaWtlIEJldGEiLCJGZWQgUG9saWN5IENvbW1lbnRhcnkiXSwicm93cyI6W3sic3ltYm9sIjoiQUFQTCIsIm5hbWUiOiJBcHBsZSIsIndlaWdodCI6IjE4LjUlIiwiYmV0YSI6IjEuMTgiLCJjb21tZW50YXJ5IjoiU2VydmljZXMvSGFyZHdhcmUgY2FzaCBmbG93IHN0YWJsZSwgcmF0ZSBzaG9jayA0MCUgaGVkZ2VkIn0seyJzeW1ib2wiOiJNU0ZUIiwibmFtZSI6Ik1pY3Jvc29mdCIsIndlaWdodCI6IjIyLjMlIiwiYmV0YSI6IjEuMDUiLCJjb21tZW50YXJ5IjoiQ2xvdWQgcmV2ZW51ZSBsb2NrZWQsIEJldGEgYmVsb3cgc2VjdG9yIn0seyJzeW1ib2wiOiJOVkRBIiwibmFtZSI6Ik52aWRpYSIsIndlaWdodCI6IjI0LjclIiwiYmV0YSI6IjEuNzIiLCJjb21tZW50YXJ5IjoiQUkgQ2FwRXggYWNjZWxlcmF0aW9uIGNhdXNlcyBIZWRnZSBHYXAifSx7InN5bWJvbCI6IlRTTEEiLCJuYW1lIjoiVGVzbGEiLCJ3ZWlnaHQiOiIxMS4yJSIsImJldGEiOiIxLjk1IiwiY29tbWVudGFyeSI6IkZpbmFuY2luZyBjb3N0IGVsYXN0aWNpdHkgaGlnaCwgc2Vuc2l0aXZlIHRvIEZlZCBwYXRoIn0seyJzeW1ib2wiOiJBTUQiLCJuYW1lIjoiQWR2YW5jZWQgTWljcm8gRGV2aWNlcyIsIndlaWdodCI6IjkuMSUiLCJiZXRhIjoiMS41NiIsImNvbW1lbnRhcnkiOiJBSS9QQyBtaXhlZCBleHBvc3VyZSwgbmVlZHMgdm9sYXRpbGl0eSBoZWRnZSJ9XX0=');
+
+            try {
+                const tableData = JSON.parse(tablePayload);
+                const tbody = document.getElementById('bright-table-body');
+                if (!tbody) {
+                    return;
+                }
+                tbody.innerHTML = '';
+
+                const brightJobs = [];
+                let cellCounter = 0;
+
+                const createCell = (className, text) => {
+                    const cell = document.createElement('td');
+                    cell.className = className;
+                    const containerId = `bright-container-cell-${cellCounter}`;
+                    const contentId = `bright-content-cell-${cellCounter}`;
+                    cellCounter += 1;
+                    const wrapper = document.createElement('div');
+                    wrapper.id = containerId;
+                    wrapper.className = 'bright-cell-wrapper';
+                    const content = document.createElement('span');
+                    content.id = contentId;
+                    content.className = 'bright-placeholder';
+                    wrapper.appendChild(content);
+                    cell.appendChild(wrapper);
+                    brightJobs.push({ containerId, contentId, text });
+                    return cell;
+                };
+
+                tableData.rows.forEach((entry) => {
+                    const tr = document.createElement('tr');
+
+                    const codeCell = createCell('py-3 pr-4', `${entry.symbol} · ${entry.name}`);
+                    const weightCell = createCell('py-3 pr-4', entry.weight);
+                    const betaCell = createCell('py-3 pr-4', entry.beta);
+                    const commentaryCell = createCell('py-3 pr-4 text-slate-600', entry.commentary);
+
+                    tr.appendChild(codeCell);
+                    tr.appendChild(weightCell);
+                    tr.appendChild(betaCell);
+                    tr.appendChild(commentaryCell);
+                    tbody.appendChild(tr);
+                });
+
+                // Apply bright masks after a short delay to ensure DOM is fully rendered, especially in iframes
+                setTimeout(() => {
+                    brightJobs.forEach(({ containerId, contentId, text }) =>
+                        applyBrightMask(containerId, contentId, text)
+                    );
+                }, 500);
+            } catch (error) {
+                console.error('Bright table payload parse failed', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

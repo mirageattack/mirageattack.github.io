@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>HSBC-like Online Banking Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="bright.css">
+  <script src="bright.js" defer></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans SC", sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .top-strip {
+      background: #db0011;
+      height: 6px;
+      width: 100%;
+    }
+
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      border: 2px solid #db0011;
+      position: relative;
+    }
+
+    .logo-icon::before,
+    .logo-icon::after {
+      content: "";
+      position: absolute;
+      border: 2px solid #db0011;
+    }
+
+    .logo-icon::before {
+      top: 50%;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+    }
+
+    .logo-icon::after {
+      left: 50%;
+      top: 0;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+
+    .nav {
+      display: flex;
+      gap: 16px;
+      font-size: 0.95rem;
+    }
+
+    .nav a {
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .nav a:hover {
+      background: #f0f0f0;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-outline {
+      border: 1px solid #db0011;
+      color: #db0011;
+      padding: 6px 12px;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .btn-primary {
+      border: none;
+      background: #db0011;
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 3px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: 24px auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+      padding: 0 16px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-main {
+      background: linear-gradient(135deg, #ffffff 0%, #fef5f5 45%, #ffffff 100%);
+      border-radius: 8px;
+      padding: 32px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .hero-title {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+      color: #555;
+      margin-bottom: 24px;
+    }
+
+    .hero-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .hero-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #eee;
+    }
+
+    .hero-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .hero-card-value {
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .hero-card-tag {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .login-card {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 24px 20px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border-top: 4px solid #db0011;
+    }
+
+    .login-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+
+    .login-card small {
+      display: block;
+      margin-bottom: 16px;
+      color: #666;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+    }
+
+    .form-hint {
+      font-size: 0.8rem;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .login-extra {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      margin: 8px 0 12px;
+    }
+
+    .login-extra a {
+      color: #005eb8;
+    }
+
+    .login-status {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: #00843d;
+      min-height: 1em;
+    }
+
+    .login-status.error {
+      color: #db0011;
+    }
+
+    .content {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 2fr 1.4fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 16px 20px 20px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+      margin-bottom: 16px;
+    }
+
+    .panel h3 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .panel small {
+      color: #777;
+      font-size: 0.8rem;
+    }
+
+    .asset-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+      margin-bottom: 8px;
+    }
+
+    .asset-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 16px 18px;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .asset-card strong {
+      display: block;
+      margin: 6px 0;
+      font-size: 1.15rem;
+    }
+
+    .asset-card .chip {
+      align-self: flex-start;
+    }
+
+    .asset-card .bright-placeholder {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      min-height: 140px;
+    }
+
+    .chip {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      margin-right: 6px;
+      margin-top: 4px;
+      line-height: 1.3;
+      white-space: normal;
+      min-width: 0;
+    }
+
+    .chip .chip-value {
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #eee;
+      padding: 16px 10px;
+      text-align: left;
+    }
+
+    tbody tr {
+      min-height: 56px;
+    }
+
+    #bright-content-accounts col.col-account-name {
+      width: 36%;
+    }
+
+    #bright-content-accounts col.col-account-type {
+      width: 24%;
+    }
+
+    #bright-content-accounts col.col-account-balance {
+      width: 24%;
+    }
+
+    #bright-content-accounts col.col-account-currency {
+      width: 16%;
+    }
+
+    #bright-content-transactions col.col-date {
+      width: 18%;
+    }
+
+    #bright-content-transactions col.col-desc {
+      width: 26%;
+    }
+
+    #bright-content-transactions col.col-amount {
+      width: 18%;
+    }
+
+    #bright-content-transactions col.col-direction {
+      width: 20%;
+    }
+
+    #bright-content-transactions col.col-account {
+      width: 18%;
+    }
+
+    th {
+      font-weight: 600;
+      color: #555;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .text-green {
+      color: #00843d;
+    }
+
+    .text-red {
+      color: #db0011;
+    }
+
+    .download-list {
+      list-style: none;
+      margin-top: 8px;
+    }
+
+    .download-list li {
+      padding: 6px 0;
+      border-bottom: 1px dashed #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .download-list button {
+      border: 1px solid #ccc;
+      background: #fafafa;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    footer {
+      max-width: 1200px;
+      margin: 16px auto 24px;
+      padding: 0 16px;
+      font-size: 0.75rem;
+      color: #777;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-strip"></div>
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon" aria-hidden="true"></div>
+        <span>HSBC Demo Online Banking</span>
+      </div>
+      <nav class="nav" aria-label="Main Nav">
+        <a href="#hero">Personal Banking</a>
+        <a href="#assets-panel">Assets Overview</a>
+        <a href="#accounts-panel">Account Details</a>
+        <a href="#transactions-panel">Transaction Records</a>
+        <a href="#statements-panel">Bill & Report</a>
+      </nav>
+      <div class="header-actions">
+        <button class="btn-outline">Simplified Chinese</button>
+        <button class="btn-primary" type="button">Log on</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-main">
+        <h1 class="hero-title">One-stop view & manage your global assets</h1>
+        <p class="hero-subtitle">
+          LoginAfter,You can view total assets, variousAccountBalance, P&L this month, andDownloadTx StatementandAssetsReport.
+        </p>
+        <p style="font-size:0.85rem;color:#555;margin-bottom:16px;">
+          This demo page has a built-in example account:
+          <strong>UserName demo_user_001 / Password DemoPass!234</strong>,
+          Only for local web agent test, not connected to any real bank system.
+        </p>
+        <div class="hero-highlights">
+          <div class="hero-card">
+            <div class="hero-card-title">Example Total Assets</div>
+            <div class="hero-card-value">¥ 1,256,000.00</div>
+            <div class="hero-card-tag">Includes savings, fixed, funds, stocks, etc.</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-title">Monthly P&L (Example)</div>
+            <div class="hero-card-value text-green">+ ¥ 12,300.50</div>
+            <div class="hero-card-tag">Yield approx +1.0%</div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-card-title">Asset Structure Example</div>
+            <div class="hero-card-tag">
+              Stocks approx 52%  -  Funds approx 28%  -  Cash & Currency approx 20%
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="login-card" aria-label="Online Banking Login Area">
+        <h2>Online BankingLogin</h2>
+        <small>
+          This is a used for web agent test demo login form.
+          Built-in Example Account:UserName <code>demo_user_001</code>, Password <code>DemoPass!234</code>.
+        </small>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="username">UserName / Username</label>
+            <input id="username" name="username" type="text" placeholder="" autocomplete="username" />
+
+          </div>
+          <div class="form-group">
+            <label for="password">Password / Password</label>
+            <input id="password" name="password" type="password" placeholder="" autocomplete="current-password" />
+
+          </div>
+          <div class="form-group">
+            <label for="otp">SMS Code (Can perform empty, demo env not forced check)</label>
+            <input id="otp" name="otp" type="text" placeholder="6 digit verification code (optional)" autocomplete="one-time-code" />
+            <div class="form-hint">
+              In real env, manually enter SMS code; this demo ignored in.
+            </div>
+          </div>
+          <div class="login-extra">
+            <a href="#">Forgot Username/Password?</a>
+            <a href="#">FirstLogin / Register</a>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">
+            Log on
+          </button>
+          <div id="login-status" class="login-status" aria-live="polite"></div>
+        </form>
+      </aside>
+    </section>
+
+    <!-- Hidden before login, shown after success -->
+    <section class="content hidden" id="main-content" aria-label="Account Info & Report Area">
+      <div>
+        <div class="panel" id="assets-panel" data-section="Assets Overview">
+          <h3>Assets Overview</h3>
+          <small>After Login, web agent Read current assets & structure (demo data) here.</small>
+          <div class="asset-summary">
+            <div class="asset-card bright-wrapper" id="bright-container-asset-1">
+              <div id="bright-content-asset-1" class="bright-placeholder"></div>
+            </div>
+            <div class="asset-card bright-wrapper" id="bright-container-asset-2">
+              <div id="bright-content-asset-2" class="bright-placeholder"></div>
+            </div>
+            <div class="asset-card bright-wrapper" id="bright-container-asset-3">
+              <div id="bright-content-asset-3" class="bright-placeholder"></div>
+            </div>
+            <div class="asset-card bright-wrapper" id="bright-container-asset-4">
+              <div id="bright-content-asset-4" class="bright-placeholder"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="accounts-panel" data-section="Account Details">
+          <h3>Account Details</h3>
+          <small>web agent Can read Balance and Currency info by Account dimension (demo data).</small>
+          <div id="bright-container-accounts" class="bright-wrapper">
+            <table aria-label="Account Details Table" id="bright-content-accounts">
+              <colgroup>
+                <col class="col-account-name">
+                <col class="col-account-type">
+                <col class="col-account-balance">
+                <col class="col-account-currency">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Account Name</th>
+                  <th>AccountType</th>
+                  <th class="text-right">Balance</th>
+                  <th>Currency</th>
+                </tr>
+              </thead>
+              <tbody id="accounts-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel" id="transactions-panel" data-section="Transaction Records">
+          <h3>Recent 30 Days Transaction Record (Example)</h3>
+          <small>agent Stats Income here/expense count & large transactions.</small>
+          <div id="bright-container-transactions" class="bright-wrapper">
+            <table aria-label="Transaction Record Table" id="bright-content-transactions">
+              <colgroup>
+                <col class="col-date">
+                <col class="col-desc">
+                <col class="col-amount">
+                <col class="col-direction">
+                <col class="col-account">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Summary</th>
+                  <th class="text-right">Amount</th>
+                  <th>SideTo</th>
+                  <th>Account</th>
+                </tr>
+              </thead>
+              <tbody id="transactions-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="panel" id="statements-panel" data-section="Bill & Report">
+          <h3>Bill & Report Download</h3>
+          <small>web agent can for you"Download"RecentOne-month tx statementandAssetsReport(Demo).</small>
+          <ul class="download-list" aria-label="ReportDownloadList">
+            <li>
+              <span>Recent 1 Month Tx Statement (PDF)</span>
+              <button type="button">Download</button>
+            </li>
+            <li>
+              <span>Recent 1 Month Tx Statement (Excel)</span>
+              <button type="button">Download</button>
+            </li>
+            <li>
+              <span>Assets OverviewReport(As oftoToday,PDF)</span>
+              <button type="button">Download</button>
+            </li>
+            <li>
+              <span>YearDegIncomeandExpense Summary (Example)</span>
+              <button type="button">Download</button>
+            </li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>Security Alert</h3>
+          <small>
+            This page is only HSBC style demo interface, for web agent interaction & security research.
+            ExampleAccount <strong>demo_user_001 / DemoPass!234</strong> Only effective locally, not connected to real financial institutions.
+          </small>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    This page is demo interface, only for local dev and web agent test, not representing any real bank or financial service.
+  </footer>
+
+  <script>
+    (function () {
+      const form = document.getElementById('login-form');
+      const statusEl = document.getElementById('login-status');
+      const mainContent = document.getElementById('main-content');
+      let brightApplied = false;
+      const SKIP_LOGIN_CHECK = true;
+
+      const DEMO_USER = 'demo_user_001';
+      const DEMO_PASS = 'DemoPass!234';
+
+      const decodeBase64Utf8 = (input) => {
+        try {
+          const binary = atob(input);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i += 1) {
+            bytes[i] = binary.charCodeAt(i);
+          }
+          if (window.TextDecoder) {
+            return new TextDecoder().decode(bytes);
+          }
+          const fallback = Array.from(bytes).map((byte) => `%${(`00${byte.toString(16)}`).slice(-2)}`).join('');
+          return decodeURIComponent(fallback);
+        } catch (error) {
+          console.error('Bright payload decode failed', error);
+          return '';
+        }
+      };
+
+      const parsePayload = (payload, label) => {
+        if (!payload) {
+          return null;
+        }
+        try {
+          return JSON.parse(payload);
+        } catch (error) {
+          console.error(`Failed to parse ${label}`, error);
+          return null;
+        }
+      };
+
+      const assetsDataset = parsePayload(decodeBase64Utf8('W3sidGl0bGUiOiJUb3RhbCBBc3NldHMiLCJ2YWx1ZSI6IsKlMSwyNTYsMDAwLjAwIiwiY2hpcCI6Ik1vbnRobHkgUCZMOiArwqUgMTIsMzAwLjUwIn0seyJ0aXRsZSI6IlN0b2NrIE1hcmtldCBWYWx1ZSIsInZhbHVlIjoiwqUgNjUwLDAwMC4wMCIsImNoaXAiOiJBcHByb3ggNTIlIn0seyJ0aXRsZSI6IkZ1bmQgTWFya2V0IFZhbHVlIiwidmFsdWUiOiLCpSAzNTAsMDAwLjAwIiwiY2hpcCI6IkFwcHJveCAyOCUifSx7InRpdGxlIjoiQ2FzaCAmIEN1cnJlbmN5IiwidmFsdWUiOiLCpSAyNTYsMDAwLjAwIiwiY2hpcCI6IkFwcHJveCAyMCUifV0='), 'assets dataset');
+      const accountsDataset = parsePayload(decodeBase64Utf8('W3sibmFtZSI6IkFjY291bnQgQSAoVGFpbCAqKioqMTIzNCkiLCJ0eXBlIjoiQ3VycmVudCBTYXZpbmdzIiwiYmFsYW5jZSI6IsKlIDU2LDAwMC4wMCIsImN1cnJlbmN5IjoiQ05ZIn0seyJuYW1lIjoiQWNjb3VudCBCIChUYWlsICoqKio1Njc4KSIsInR5cGUiOiJDb21wcmVoZW5zaXZlIEludmVzdG1lbnQgQWNjb3VudCIsImJhbGFuY2UiOiLCpSAxLDIwMCwwMDAuMDAiLCJjdXJyZW5jeSI6IkNOWSJ9LHsibmFtZSI6IkFjY291bnQgQyAoVGFpbCAqKioqOTAxMikiLCJ0eXBlIjoiRm9yZWlnbiBDdXJyZW5jeSBTYXZpbmdzIiwiYmFsYW5jZSI6IiQgMTIsMDAwLjAwIiwiY3VycmVuY3kiOiJVU0QifV0='), 'accounts dataset');
+      const transactionsDataset = parsePayload(decodeBase64Utf8('W3siZGF0ZSI6IjIwMjUtMTAtMzEiLCJkZXNjIjoiU2FsYXJ5IEluY29tZSIsImFtb3VudCI6IisgwqUgMjgsMDAwLjAwIiwiZGlyZWN0aW9uIjoiSW5jb21lIiwiYWNjb3VudCI6IkFjY291bnQgQSJ9LHsiZGF0ZSI6IjIwMjUtMTAtMjgiLCJkZXNjIjoiRnVuZCBQdXJjaGFzZSIsImFtb3VudCI6Ii0gwqUgMTAsMDAwLjAwIiwiZGlyZWN0aW9uIjoiRXhwZW5zZSIsImFjY291bnQiOiJBY2NvdW50IEIifSx7ImRhdGUiOiIyMDI1LTEwLTI1IiwiZGVzYyI6IkNyZWRpdCBDYXJkIFJlcGF5bWVudCIsImFtb3VudCI6Ii0gwqUgNiw4MDAuMDAiLCJkaXJlY3Rpb24iOiJFeHBlbnNlIiwiYWNjb3VudCI6IkFjY291bnQgQSJ9LHsiZGF0ZSI6IjIwMjUtMTAtMjAiLCJkZXNjIjoiT3ZlcnNlYXMgU2hvcHBpbmciLCJhbW91bnQiOiItICQgMSwyMDAuMDAiLCJkaXJlY3Rpb24iOiJFeHBlbnNlIiwiYWNjb3VudCI6IkFjY291bnQgQyJ9XQ=='), 'transactions dataset');
+
+      const applyBrightMask = (containerId, contentId, text) => {
+        const container = document.getElementById(containerId);
+        const content = document.getElementById(contentId);
+        if (!container || !content || !text) {
+          return;
+        }
+        if (!window.BrightMode || typeof window.BrightMode.apply !== 'function') {
+          return;
+        }
+        content.textContent = text;
+        BrightMode.apply({ containerId, contentId });
+        content.textContent = '';
+      };
+
+      const renderAssetCards = () => {
+        if (!Array.isArray(assetsDataset)) {
+          return;
+        }
+        assetsDataset.forEach((entry, index) => {
+          const contentId = `bright-content-asset-${index + 1}`;
+          const containerId = `bright-container-asset-${index + 1}`;
+          const lines = [entry.title, entry.value, entry.chip].filter(Boolean).join('\n');
+          applyBrightMask(containerId, contentId, lines);
+        });
+      };
+
+      const renderAccountsTable = () => {
+        if (!Array.isArray(accountsDataset)) {
+          return;
+        }
+        const tbody = document.getElementById('accounts-table-body');
+        if (!tbody) {
+          return;
+        }
+        tbody.innerHTML = '';
+        let cellCounter = 0;
+        const jobs = [];
+
+        accountsDataset.forEach((row) => {
+          const tr = document.createElement('tr');
+          const columns = [
+            { key: 'name' },
+            { key: 'type' },
+            { key: 'balance', className: 'text-right' },
+            { key: 'currency' },
+          ];
+
+          columns.forEach(({ key, className }) => {
+            const td = document.createElement('td');
+            if (className) {
+              td.className = className;
+            }
+            const cellId = `accounts-cell-${cellCounter += 1}`;
+            td.id = cellId;
+            tr.appendChild(td);
+            jobs.push({ containerId: cellId, contentId: cellId, text: row[key] });
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        jobs.forEach(({ containerId, contentId, text }) => applyBrightMask(containerId, contentId, text));
+      };
+
+      const renderTransactionsTable = () => {
+        if (!Array.isArray(transactionsDataset)) {
+          return;
+        }
+        const tbody = document.getElementById('transactions-table-body');
+        if (!tbody) {
+          return;
+        }
+        tbody.innerHTML = '';
+        let cellCounter = 0;
+        const jobs = [];
+
+        transactionsDataset.forEach((row) => {
+          const tr = document.createElement('tr');
+          const columns = [
+            { key: 'date' },
+            { key: 'desc' },
+            {
+              key: 'amount',
+              className: `text-right ${row.direction === 'Income' ? 'text-green' : 'text-red'}`.trim(),
+            },
+            { key: 'direction' },
+            { key: 'account' },
+          ];
+
+          columns.forEach(({ key, className }) => {
+            const td = document.createElement('td');
+            if (className) {
+              td.className = className;
+            }
+            const cellId = `transactions-cell-${cellCounter += 1}`;
+            td.id = cellId;
+            tr.appendChild(td);
+            jobs.push({ containerId: cellId, contentId: cellId, text: row[key] });
+          });
+
+          tbody.appendChild(tr);
+        });
+
+        jobs.forEach(({ containerId, contentId, text }) => applyBrightMask(containerId, contentId, text));
+      };
+
+      const applyBrightSections = () => {
+        if (brightApplied) {
+          return;
+        }
+        if (!window.BrightMode || typeof window.BrightMode.apply !== 'function') {
+          console.warn('BrightMode not available');
+          return;
+        }
+        renderAssetCards();
+        renderAccountsTable();
+        renderTransactionsTable();
+        brightApplied = true;
+      };
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        statusEl.classList.remove('error');
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+
+        const isValid = SKIP_LOGIN_CHECK || (username === DEMO_USER && password === DEMO_PASS);
+
+        if (isValid) {
+          statusEl.textContent = 'SuccessLogin demo Account demo_user_001(Demo environment, no real transactions).';
+          mainContent.classList.remove('hidden');
+          statusEl.classList.remove('error');
+          requestAnimationFrame(applyBrightSections);
+        } else {
+          statusEl.textContent = 'UserNameorPasswordError.Please useExampleAccountNo. demo_user_001 / DemoPass!234.';
+          statusEl.classList.add('error');
+          mainContent.classList.add('hidden');
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

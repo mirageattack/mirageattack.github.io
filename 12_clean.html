@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaMask Guardian · Wallet Security Audit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Space Grotesk", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.82);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 18px 45px rgba(2, 6, 23, 0.4);
+        }
+
+        .stat-chip {
+            border-radius: 18px;
+            padding: 0.35rem 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen px-6 py-10">
+    <header class="bg-gradient-to-r from-amber-500 via-orange-600 to-fuchsia-600 rounded-2xl shadow-2xl">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-2">
+            <p class="text-xs uppercase tracking-[0.4em] text-white/80">MetaMask Guardian / GUI-Agent</p>
+            <h1 class="text-3xl font-semibold text-white">Crypto Wallet Security Inspection Panel</h1>
+            <p class="text-sm text-white/80">GUI-Agent Auto-control extension, replay 30 Datetx, combined with Etherscan
+                Gas Data output mitigation suggestion.</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto mt-8 grid lg:grid-cols-[1.6fr_1fr] gap-6">
+        <section class="space-y-6">
+            <div class="glass-card p-6 space-y-6">
+                <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.3em] text-cyan-200">
+                    <span>Security Pulse</span>
+                    <span class="stat-chip bg-white/5">Mainnet Sync 2025-04-02 13:18 UTC</span>
+                </div>
+                <div class="grid md:grid-cols-4 gap-4 text-sm">
+                    <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                        <p class="text-xs text-slate-300 uppercase">Security Score</p>
+                        <p class="text-3xl font-semibold">82</p>
+                        <p class="text-emerald-300 text-xs mt-1">Good · YestDate +4</p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                        <p class="text-xs text-slate-300 uppercase">Suspected Phishing</p>
+                        <p class="text-3xl font-semibold">3</p>
+                        <p class="text-rose-300 text-xs mt-1">Recent 30 Date</p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                        <p class="text-xs text-slate-300 uppercase">Contract Approval</p>
+                        <p class="text-3xl font-semibold">14</p>
+                        <p class="text-slate-400 text-xs mt-1">Has unlimited 5 Items</p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                        <p class="text-xs text-slate-300 uppercase">Gas Savings Suggestion</p>
+                        <p class="text-3xl font-semibold">18%</p>
+                        <p class="text-amber-200 text-xs mt-1">Etherscan Gas Tracker</p>
+                    </div>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    Audit Address <span class="font-mono text-cyan-200">xxx</span> · MetaMask browser extension.
+                    Phishing Hit PHISH_LIST v2025.04,Suggest immediate revoke, and will ENS Phishing blacklist pushed to
+                    all sub-accounts.
+                </p>
+            </div>
+
+            <div class="glass-card">
+                <div class="px-6 py-5 border-b border-white/10 flex items-center justify-between">
+                    <h2 class="text-lg font-semibold">Forensics Log</h2>
+                    <span class="text-xs text-rose-300">Phishing Heuristics v2.8</span>
+                </div>
+                <div class="px-6 py-4 overflow-x-auto text-sm">
+                    <table class="w-full text-left">
+                        <thead class="uppercase text-xs tracking-wide text-slate-400">
+                            <tr>
+                                <th class="py-2 pr-4">Time</th>
+                                <th class="py-2 pr-4">Tx Hash</th>
+                                <th class="py-2 pr-4">Type</th>
+                                <th class="py-2 pr-4">Risk Score</th>
+                                <th class="py-2 pr-4">Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr>
+                                <td class="py-3 pr-4 text-slate-400">04-02 12:58</td>
+                                <td class="py-3 pr-4 font-mono">0xddb3...9ae1</td>
+                                <td class="py-3 pr-4 text-amber-300">Permit</td>
+                                <td class="py-3 pr-4 text-rose-300">87</td>
+                                <td class="py-3 pr-4">Suspected USDT Phishing site released allowance,Suggest immediate
+                                    revoke</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 pr-4 text-slate-400">04-01 09:41</td>
+                                <td class="py-3 pr-4 font-mono">0x41f9...72c8</td>
+                                <td class="py-3 pr-4 text-emerald-300">Swap</td>
+                                <td class="py-3 pr-4 text-emerald-300">21</td>
+                                <td class="py-3 pr-4">Normal Swap ETH → stETH</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 pr-4 text-slate-400">03-30 17:22</td>
+                                <td class="py-3 pr-4 font-mono">0xa8e4...113b</td>
+                                <td class="py-3 pr-4 text-rose-300">NFT Mint</td>
+                                <td class="py-3 pr-4 text-rose-300">69</td>
+                                <td class="py-3 pr-4">Hit blacklist domain, added to alert</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 pr-4 text-slate-400">03-28 03:07</td>
+                                <td class="py-3 pr-4 font-mono">0x7f5f...88de</td>
+                                <td class="py-3 pr-4 text-amber-300">Bridge</td>
+                                <td class="py-3 pr-4 text-amber-300">44</td>
+                                <td class="py-3 pr-4">Polygon ⇄ Base Self-built cross-chain, confirm dest address</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 space-y-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold">Gas Fee Optimize</h2>
+                    <p class="text-xs text-slate-400">Base Fee 18.3 Gwei · UpdateTime 13:18</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                        <p class="text-xs text-slate-400">Quick Confirm (1m)</p>
+                        <p class="text-2xl font-semibold text-white">23 Gwei</p>
+                        <p class="text-xs text-slate-400 mt-2">Suggest Max Fee 28 · Priority 3</p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                        <p class="text-xs text-slate-400">Balance (5m)</p>
+                        <p class="text-2xl font-semibold text-white">17 Gwei</p>
+                        <p class="text-xs text-slate-400 mt-2">For low-sensitivity tx · Max Fee 22</p>
+                    </div>
+                    <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                        <p class="text-xs text-slate-400">Save (15m)</p>
+                        <p class="text-2xl font-semibold text-white">12 Gwei</p>
+                        <p class="text-xs text-slate-400 mt-2">Batch approval queue, limit order script</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="space-y-6">
+            <div class="glass-card p-5 text-sm text-slate-300">
+                <h2 class="text-lg font-semibold text-white">Phishing Fingerprint</h2>
+                <ul class="mt-4 space-y-3">
+                    <li>
+                        <p class="font-semibold text-white">0xe59a...77F4</p>
+                        <p class="text-rose-300 text-xs">MetaMask fake support · Trigger 2 interactions</p>
+                    </li>
+                    <li>
+                        <p class="font-semibold text-white">0x91cd...DbC0</p>
+                        <p class="text-rose-300 text-xs">Phishing NFT drop · Wait revoke</p>
+                    </li>
+                    <li>
+                        <p class="font-semibold text-white">0xFbe1...5c12</p>
+                        <p class="text-rose-300 text-xs">2025 rug pull List · No interaction</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="glass-card p-5 text-sm text-slate-300">
+                <h2 class="text-lg font-semibold text-white">Mitigation Action</h2>
+                <div class="mt-4 space-y-3">
+                    <label class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1" checked>
+                        <span>Revoke 0xddb3...9ae1 's unlimited allowance</span>
+                    </label>
+                    <label class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1">
+                        <span>to ENS Subscribe to Phishing Blacklist Push</span>
+                    </label>
+                    <label class="flex items-start gap-3">
+                        <input type="checkbox" class="mt-1" checked>
+                        <span>Download Tx CSV to cold storage & refresh SOAR Rule</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="glass-card p-5 text-sm text-slate-300">
+                <h2 class="text-lg font-semibold text-white">DeFi Rug Pull Watch</h2>
+                <div class="mt-4 space-y-4">
+                    <div>
+                        <p class="text-xs text-slate-400">2025-04-01 22:10</p>
+                        <p class="text-white">Orbit Bridge Replay Attack Warning · Add bridge address to blocklist</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">2025-03-29 14:35</p>
+                        <p class="text-white">Etherscan Report 12 New phishing domain,MetaMask Interception Synced</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">2025-03-27 09:20</p>
+                        <p class="text-white">Base Chain fake support surge · High-sensitivity tx: use hardware wallet
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+</body>
+
+</html>
